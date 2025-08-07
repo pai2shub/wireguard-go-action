@@ -1,4 +1,4 @@
-name: Build and Release WireGuard-Go from Upstream
+name: auto-release
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
           git rev-parse HEAD > ../commit_hash.txt
           tag=$(git describe --tags --dirty 2>/dev/null || echo unknown)
           echo "Detected tag: $tag"
-          echo "package main\n\nconst Version = \"$tag\"" > version.go
+          printf 'package main\n\nconst Version = "%s"\n' "$tag" > version.go
           cat version.go
           cd ..
 
